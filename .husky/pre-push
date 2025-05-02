@@ -1,0 +1,11 @@
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  target=$(git rev-parse --symbolic --abbrev-ref @{upstream})
+
+  if [ "$branch" = "main" ] && [ "$target" = "origin/main" ]; then
+    echo "🚫 You are not allowed to push directly to the main branch."
+    echo "   Please create a feature branch and merge via a Pull Request."
+    exit 1
+  fi
+
+  # Allow the push to proceed if it's not to the main branch
+  exit 0
