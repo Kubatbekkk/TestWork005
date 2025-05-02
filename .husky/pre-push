@@ -1,2 +1,0 @@
-echo "Running build process..."
-npx build
