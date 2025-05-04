@@ -1,17 +1,19 @@
-import styles from "./page.module.scss";
+import { WeatherSearch, WeatherList } from "@/components";
+import { Suspense } from "react";
 
-export default function Home() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: { city?: string };
+}) {
+  const { city } = await searchParams;
+
   return (
-    <div className={styles.page}>
-      Weather
-      <button
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Test Bootstrap
-      </button>
+    <div className="container py-5">
+      <WeatherSearch />
+      <Suspense fallback={<div>Loading forecast...</div>}>
+        {city && <WeatherList city={city} />}
+      </Suspense>
     </div>
   );
 }
