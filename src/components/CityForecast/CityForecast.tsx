@@ -1,4 +1,4 @@
-import { getForecast } from "@/app/getForecast";
+import { getForecast } from "@/utils/api";
 
 type Props = {
   city: string;

@@ -16,7 +16,7 @@ export const getForecast = cache(async (city: string) => {
     });
 
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching forecast:", error);
     throw new Error(`Could not fetch forecast for ${city}`);
   }

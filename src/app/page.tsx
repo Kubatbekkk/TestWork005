@@ -9,11 +9,11 @@ export default async function HomePage({
   const { city } = await searchParams;
 
   return (
-    <div className="container py-5">
+    <>
       <WeatherSearch />
       <Suspense fallback={<div>Loading forecast...</div>}>
         {city && <WeatherList city={city} />}
       </Suspense>
-    </div>
+    </>
   );
 }

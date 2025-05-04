@@ -1,5 +1,5 @@
 import { FavoriteCities } from "@/components/FavoriteCities/FavoriteCities";
 
-export default async function Favorites() {
+export default function Favorites() {
   return <FavoriteCities />;
 }

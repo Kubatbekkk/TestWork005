@@ -7,7 +7,7 @@ export const FavoriteCities = () => {
   const favorites = useFavoriteStore((state) => state.favorites);
 
   if (favorites.length === 0) {
-    return <div>No Favorite Cities yet.</div>;
+    return <h2 className="mb-4 text-center">No Favorite Cities yet.</h2>;
   }
 
   return (

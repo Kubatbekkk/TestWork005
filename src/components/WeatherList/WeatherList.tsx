@@ -1,4 +1,4 @@
-import { getForecast } from "@/app/getForecast";
+import { getForecast } from "@/utils/api";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";

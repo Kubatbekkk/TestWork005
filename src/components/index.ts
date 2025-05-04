@@ -3,3 +3,4 @@ export { FavoriteButton } from "./FavoriteButton";
 export { FavoriteCities } from "./FavoriteCities";
 export { WeatherList } from "./WeatherList";
 export { WeatherSearch } from "./WeatherSearch";
+export { Loader } from "./Loader";
