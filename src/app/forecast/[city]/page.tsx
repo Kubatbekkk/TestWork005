@@ -1,11 +1,22 @@
 import Link from "next/link";
 import { CityForecast } from "@/components";
+import { Metadata } from "next";
+import { getCurrentWeather } from "@/utils/api";
 
-export default async function Page({
-  params,
-}: {
+type Props = {
   params: Promise<{ city: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { city } = await params;
+  const forecast = await getCurrentWeather(city);
+
+  return {
+    title: `${forecast.name}, ${forecast.sys.country}`,
+  };
+}
+
+export default async function Page({ params }: Props) {
   const { city } = await params;
 
   return (
