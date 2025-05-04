@@ -8,6 +8,7 @@ type AddToFavoriteProps = {
   city: {
     cityId: number;
     name: string;
+    country: string;
   };
 };
 

@@ -2,21 +2,40 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export function WeatherSearch() {
-  const [value, setValue] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const initialCity = searchParams.get("city") || "";
+  const [value, setValue] = useState(initialCity);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!value) return;
+
+    const sanitizedValue = value.trim();
+    const isValidCity = /^[a-zA-Z\s]+$/.test(sanitizedValue);
+
+    if (!sanitizedValue || !isValidCity) {
+      toast.error("Please enter a valid city name using only letters.", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
 
     const params = new URLSearchParams(searchParams);
-    params.set("city", value);
+    params.set("city", sanitizedValue);
     router.push(`/?${params.toString()}`);
   };
+
+  useEffect(() => {
+    const city = searchParams.get("city") || "";
+    if (city !== value) {
+      setValue(city);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   return (
     <form onSubmit={handleSearch} className="mb-4">
@@ -36,6 +55,7 @@ export function WeatherSearch() {
           Go to 🤍
         </Link>
       </div>
+      <ToastContainer />
     </form>
   );
 }

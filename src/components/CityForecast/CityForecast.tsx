@@ -1,23 +1,46 @@
-import { getForecast } from "@/utils/api";
+import { getWeatherForecast } from "@/utils/api";
+import { WeatherCard } from "../WeatherCard";
+import type { ForecastWeatherResponse } from "@/types";
 
-type Props = {
+type CityForecastProps = {
   city: string;
 };
 
-export async function CityForecast({ city }: Props) {
-  const forecast = await getForecast(city);
+export async function CityForecast({ city }: CityForecastProps) {
+  const forecast = await getWeatherForecast(city);
+
+  const uniqueDays = forecast.list.reduce(
+    (
+      acc: (typeof forecast.list)[0][],
+      item: ForecastWeatherResponse["list"][0],
+    ) => {
+      const date = new Date(item.dt_txt).toISOString().split("T")[0];
+
+      if (
+        !acc.find(
+          (entry) =>
+            new Date(entry.dt_txt).toISOString().split("T")[0] === date,
+        )
+      ) {
+        acc.push(item);
+      }
+      return acc;
+    },
+    [],
+  );
 
   return (
-    <div className="row">
-      {forecast.list.map((item: any, idx: number) => (
-        <div key={idx} className="col-md-3 mb-4">
-          <div className="card text-center p-3">
-            <h5>{new Date(item.dt_txt).toLocaleString()}</h5>
-            <p>{item.main.temp}°C</p>
-            <p>{item.weather[0].description}</p>
+    <div>
+      {uniqueDays.map((dayWeather) => {
+        return (
+          <div
+            key={dayWeather.dt}
+            className="mb-3 border rounded p-3 shadow-sm d-flex justify-content-between align-items-center flex-wrap"
+          >
+            <WeatherCard forecast={dayWeather} />
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

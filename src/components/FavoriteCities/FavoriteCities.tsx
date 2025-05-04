@@ -17,13 +17,19 @@ export const FavoriteCities = () => {
         {favorites.map((city) => (
           <li
             key={city.cityId}
-            className="list-group-item d-flex justify-content-between align-items-center"
+            className="list-group-item d-flex align-items-center justify-content-between gap-2"
           >
-            <Link href={`/forecast/${city.name}`}>{city.name}</Link>
+            <Link
+              href={`/forecast/${city.name}`}
+              className="btn btn-sm btn-outline-primary w-75"
+            >
+              {city.name}, {city.country}
+            </Link>
             <FavoriteButton
               city={{
                 cityId: city.cityId,
                 name: city.name,
+                country: city.country,
               }}
             />
           </li>

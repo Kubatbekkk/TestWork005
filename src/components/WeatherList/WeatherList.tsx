@@ -1,59 +1,43 @@
-import { getForecast } from "@/utils/api";
+import { getCurrentWeather } from "@/utils/api";
 import Link from "next/link";
-import Image from "next/image";
-import clsx from "clsx";
 import { FavoriteButton } from "../FavoriteButton";
-import styles from "./WeatherList.module.scss";
+import { WeatherCard } from "../WeatherCard";
 
 type WeatherListProps = {
-  city: string;
+  city: string | undefined;
 };
 
 export async function WeatherList({ city }: WeatherListProps) {
-  const forecast = await getForecast(city);
-
   if (!city) {
     return <div className="text-center mt-5">Enter a city to get forecast</div>;
   }
 
-  console.log({ forecast });
+  let forecast;
+
+  try {
+    forecast = await getCurrentWeather(city);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred.";
+    return (
+      <div className="text-center mt-5">
+        <h2>{errorMessage}</h2>
+        <p>Please try searching for a different city.</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <h2 className="mb-3">Forecast for {forecast.name} - Current Weather</h2>{" "}
       <div className="mb-3 border rounded p-3 shadow-sm d-flex justify-content-between align-items-center flex-wrap">
-        <div className={styles.weatherGrid}>
-          <h5>
-            {forecast.name}, {forecast.sys.country}
-          </h5>
-          <Image
-            src={`https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`}
-            alt={forecast.weather[0].description}
-            width={60}
-            height={60}
-            priority={true}
-          />
-          <div className={clsx(styles.temperature, "text-center")}>
-            <strong>{Math.round(forecast.main.temp)}°C</strong>
-            <div className={styles.tempRange}>
-              <small>Max: {Math.round(forecast.main.temp_max)}°C</small> |{" "}
-              <small>Min: {Math.round(forecast.main.temp_min)}°C</small>
-            </div>
-          </div>
-
-          <div className={clsx(styles.additionalInfo, "text-center")}>
-            <p className="mb-0 text-capitalize">
-              Pressure: {forecast.main.pressure}
-            </p>
-            <small>Feels like: {Math.round(forecast.main.feels_like)}°C</small>
-          </div>
-
-          <div className={clsx(styles.additionalInfo, "text-center")}>
-            <p className="mb-0 text-capitalize">
-              {forecast.weather[0].description}
-            </p>
-            <small>Humidity: {forecast.main.humidity}%</small>
-          </div>
-        </div>
+        <WeatherCard
+          forecast={forecast}
+          location={{
+            cityName: forecast.name,
+            country: forecast.sys.country,
+          }}
+        />
 
         <div className="d-flex align-items-center gap-2">
           <Link
@@ -64,8 +48,9 @@ export async function WeatherList({ city }: WeatherListProps) {
           </Link>
           <FavoriteButton
             city={{
-              cityId: forecast.id,
+              cityId: Number(forecast.id),
               name: forecast.name,
+              country: forecast.sys.country,
             }}
           />
         </div>

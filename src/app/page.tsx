@@ -12,7 +12,7 @@ export default async function HomePage({
     <>
       <WeatherSearch />
       <Suspense fallback={<div>Loading forecast...</div>}>
-        {city && <WeatherList city={city} />}
+        <WeatherList city={city} />
       </Suspense>
     </>
   );

@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 interface Favorite {
   cityId: number;
   name: string;
+  country: string;
 }
 interface FavoriteState {
   favorites: Favorite[];

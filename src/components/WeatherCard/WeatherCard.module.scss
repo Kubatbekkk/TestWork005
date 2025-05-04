@@ -1,0 +1,25 @@
+.weatherGrid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(5, 1fr);
+  place-items: center;
+}
+
+@media (width <= 768px) {
+  .weatherGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.temperature {
+  font-size: 1.2rem;
+
+  .tempRange {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+}
+
+.additionalInfo small {
+  color: #6c757d;
+}
