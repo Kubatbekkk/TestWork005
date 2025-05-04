@@ -4,7 +4,7 @@ import { Suspense } from "react";
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { city?: string };
+  searchParams: Promise<{ city?: string }>;
 }) {
   const { city } = await searchParams;
 
