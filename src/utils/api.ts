@@ -4,6 +4,10 @@ import { cache } from "react";
 
 const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 const BASE_URL = process.env.BASE_URL_API_KEY;
+const ENDPOINT = {
+  weather: "weather",
+  forecast: "forecast",
+} as const;
 
 export const fetchWeatherData = cache(
   async <T>(
@@ -41,9 +45,13 @@ export const fetchWeatherData = cache(
 );
 
 export const getCurrentWeather = cache(async (city: string) => {
-  return fetchWeatherData<CurrentWeatherResponse>("weather", { q: city });
+  return fetchWeatherData<CurrentWeatherResponse>(ENDPOINT.weather, {
+    q: city,
+  });
 });
 
 export const getWeatherForecast = cache(async (city: string) => {
-  return fetchWeatherData<ForecastWeatherResponse>("forecast", { q: city });
+  return fetchWeatherData<ForecastWeatherResponse>(ENDPOINT.forecast, {
+    q: city,
+  });
 });
