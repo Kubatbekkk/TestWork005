@@ -3,7 +3,7 @@ import axios from "axios";
 import { cache } from "react";
 
 const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
-const BASE_URL = "https://api.openweathermap.org/data/2.5";
+const BASE_URL = process.env.BASE_URL_API_KEY;
 
 export const fetchWeatherData = cache(
   async <T>(
