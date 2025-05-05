@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.scss";
 import clsx from "clsx";
+import styles from "./page.module.scss";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(geistSans.variable, geistMono.variable)}>
-        <div className="container py-5 px-5 min-vh-100">{children}</div>
+        <div
+          className={clsx(
+            styles.container,
+            "container py-5 min-vh-100 w-75 px-1",
+          )}
+        >
+          {children}
+        </div>
       </body>
     </html>
   );

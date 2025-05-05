@@ -1,0 +1,11 @@
+.column {
+  @media (width <= 568px) {
+    flex-direction: column;
+  }
+}
+
+.button {
+  @media (width <= 568px) {
+    width: 100% !important;
+  }
+}

@@ -1,15 +1,18 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import styles from "./WeatherSearch.module.scss";
 
 export function WeatherSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCity = searchParams.get("city") || "";
   const [value, setValue] = useState(initialCity);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -39,7 +42,7 @@ export function WeatherSearch() {
 
   return (
     <form onSubmit={handleSearch} className="mb-4">
-      <div className="d-flex gap-2 align-items-center">
+      <div className={clsx("d-flex gap-2 align-items-center", styles.column)}>
         <input
           type="text"
           value={value}
@@ -47,11 +50,17 @@ export function WeatherSearch() {
           placeholder="Enter city"
           className="form-control"
         />
-        <button type="submit" className="btn btn-primary w-25">
+        <button
+          type="submit"
+          className={clsx("btn btn-primary w-25", styles.button)}
+        >
           Search
         </button>
         <span>or</span>
-        <Link href="/favorites" className="btn btn-success w-25">
+        <Link
+          href="/favorites"
+          className={clsx("btn btn-success w-25", styles.button)}
+        >
           Go to 🤍
         </Link>
       </div>
